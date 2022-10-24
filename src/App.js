@@ -1,6 +1,9 @@
 import './App.css';
+import AddItem from "./AddTopping"
+import { useState } from "react";
 
 function Home() {
+
   return (
     <body>
       <header>
@@ -9,6 +12,7 @@ function Home() {
       <div className = "main-content-box">
       
         {/* Section 1 - Content section , <Content /> */}
+
 
       </div>
     </body>
