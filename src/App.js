@@ -1,5 +1,6 @@
 import './App.css';
-import AddTopping from "./AddTopping"
+import AddTopping from "./AddTopping";
+import ToppingDisplay from "./ToppingDisplay";
 
 import { useState } from "react";
 
@@ -11,6 +12,7 @@ function Home() {
 
   const addToppingToData = (topping) => {
     let toppings = data["toppings"]; // Stores state in data
+    topping.id = toppings.length; // sets id for each topping
     toppings.push(topping); // pushes item into this data array
     setData({ toppings: toppings }); // setData = currentData
 
@@ -28,6 +30,7 @@ function Home() {
         {/* Section 1 - Content section , <Content /> */}
 
         <AddTopping addTopping={addToppingToData} />
+        <ToppingDisplay toppings={data["toppings"]} />
 
       </div>
     </body>
