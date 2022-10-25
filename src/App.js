@@ -7,20 +7,20 @@ import { useState, useEffect } from "react";
 
 function Home() {
   const [filters, setFilters] = useState({});
-  const [data, setData] = useState({ toppings: [] }); // Stores items
+  const [toppingData, setToppingData] = useState({ toppings: [] }); // Stores toppings
 
 
   useEffect(() => {
     fetch("http://localhost:3000/toppings")
     .then((response) => response.json())
-    .then((data) => setData({ toppings: data }));
+    .then((toppingData) => setToppingData({ toppings: toppingData }));
   }, []);
 
 
 
 
   const addToppingToData = (topping) => {
-    let toppings = data["toppings"]; // Stores state in data
+    let toppings = toppingData["toppings"]; // Stores state in data
     //topping.id = toppings.length; // sets id for each topping
 
     const requestOptions = {
@@ -31,16 +31,23 @@ function Home() {
       body: JSON.stringify(topping) // converts topping to string
     }
 
-    fetch("http://localhost:3000/toppings", requestOptions)
+    if (JSON.stringify(toppings).includes(JSON.stringify(topping.topping))) { // checks if 
+      console.log("In data");
+    }  
+    else {
+      fetch("http://localhost:3000/toppings", requestOptions)
       .then((response) => response.json())
-      .then((data) => {
-        toppings.push(data); // pushes item into this data array
-        setData({ toppings: toppings }); // setData = currentData
+      .then((toppingData) => {
+        toppings.push(toppingData); // pushes item into this data array
+        setToppingData({ toppings: toppings }); // setData = currentData
+        console.log(toppings)
       }); // *get[s] data from backend data
+    }
   }
 
   const deleteTopping = (topping) => {
-    const toppings = data["toppings"];
+    console.log(topping)
+    const toppings = toppingData["toppings"];
     const requestOptions = {
       method: "DELETE"
     }
@@ -49,16 +56,38 @@ function Home() {
         //Checks response code
         if (response.ok) {
           const idx = toppings.indexOf(topping); // finds index in array
-          toppings.splice(idx, 1) // removes element from array, at the index we found
-          setData({toppings: toppings})
+          toppings.splice(idx, 1);
+          setToppingData({toppings: toppings})
         }
       }
     );
   };
 
+  // Used when we want to update a topping's name. Used in ToppingDisplay.js
+  const updateTopping = (topping, editElem) => {
+    const toppings = toppingData["toppings"];
+    const idx = toppings.indexOf(topping); // finds index in array
+    toppings[idx].topping = editElem;
+    setToppingData({ toppings: toppings });
+
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(topping)
+    }
+    fetch(`http://localhost:3000/toppings/${topping.id}`, requestOptions)
+    .then((response) => {}
+    );
+  };
+
+
 
   const filterData = (data) => {
     const filteredData = [];
+
+    console.log(filters)
 
     if (!filters.name) {
       return data;
@@ -86,12 +115,16 @@ function Home() {
       </header>
       <div className = "main-content-box">
       
-        {/* Section 1 - Content section , <Content /> */}
+        {/* Section 1 - Topping section , <Content /> */}
 
         <AddTopping addTopping={addToppingToData} />
+
         <ToppingDisplay 
         deleteTopping={deleteTopping}
-        toppings={filterData(data["toppings"])} />
+        updateTopping={updateTopping}
+        toppings={filterData(toppingData["toppings"])} />
+
+
 
       </div>
     </body>
