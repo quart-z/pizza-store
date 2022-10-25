@@ -1,15 +1,25 @@
-function ToppingDisplay(props) {
+function ToppingDisplay({ toppings, deleteTopping }) {
+	const showTopping = (topping) => {
+		return (
+			<tr>
+				<th scope="row">{topping.id}</th>
+				<td>{topping.topping}</td>
+				<td>
+					<button className="delete-button" onClick={() => deleteTopping(topping)}>
+						Delete 
+					</button>
+				</td>
+			</tr>
+		);
+	};
 	return ( 
 		<div>
-			{props.toppings.map((topping) => {
-				return (
+			<div>
+				{toppings.map(showTopping)}
+			</div>
+			<div>
 
-					<div>
-				 		<p> Topping: {topping.topping} </p>
-				 	</div>
-
-				 );
-		 })} 
+			</div>
 		</div>
 	);
 }

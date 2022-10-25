@@ -1,0 +1,20 @@
+{
+  "toppings": [
+    {
+      "topping": "Pepperoni",
+      "id": 0
+    },
+    {
+      "topping": "Sausage",
+      "id": 1
+    },
+    {
+      "topping": "Tomato",
+      "id": 2
+    },
+    {
+      "topping": "Pineapple",
+      "id": 3
+    }
+  ]
+}
