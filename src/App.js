@@ -1,6 +1,7 @@
 import './App.css';
 import AddTopping from "./AddTopping";
 import ToppingDisplay from "./ToppingDisplay";
+import PizzaDisplay from "./PizzaDisplay";
 
 import { useState, useEffect } from "react";
 
@@ -8,12 +9,19 @@ import { useState, useEffect } from "react";
 function Home() {
   const [filters, setFilters] = useState({});
   const [toppingData, setToppingData] = useState({ toppings: [] }); // Stores toppings
+  const [pizzaData, setPizzaData] = useState({ pizzas: [] }); // Stores pizzas
 
 
   useEffect(() => {
     fetch("http://localhost:3000/toppings")
     .then((response) => response.json())
     .then((toppingData) => setToppingData({ toppings: toppingData }));
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/pizzas")
+    .then((response) => response.json())
+    .then((pizzaData) => setPizzaData({ pizzas: pizzaData }));
   }, []);
 
 
@@ -84,6 +92,20 @@ function Home() {
 
 
 
+  // PIZZAS
+
+  const deletePizza = (topping) => {
+
+  };
+
+  // Used when we want to update a topping's name. Used in ToppingDisplay.js
+  const updatePizza = (topping) => {
+
+  };
+
+
+
+
   const filterData = (data) => {
     const filteredData = [];
 
@@ -116,13 +138,21 @@ function Home() {
       <div className = "main-content-box">
       
         {/* Section 1 - Topping section , <Content /> */}
+        <div className = "topping-box">
+          <AddTopping addTopping={addToppingToData} />
 
-        <AddTopping addTopping={addToppingToData} />
+          <ToppingDisplay 
+          deleteTopping={deleteTopping}
+          updateTopping={updateTopping}
+          toppings={filterData(toppingData["toppings"])} />
+        </div>
 
-        <ToppingDisplay 
-        deleteTopping={deleteTopping}
-        updateTopping={updateTopping}
-        toppings={filterData(toppingData["toppings"])} />
+        <div className="pizza-box">
+          <PizzaDisplay 
+          deletePizza={deletePizza}
+          updatePizza={updatePizza}
+          pizzas={filterData(pizzaData["pizzas"])} />
+        </div>
 
 
 

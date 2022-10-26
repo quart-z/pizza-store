@@ -15,7 +15,7 @@ function AddTopping(props) {
 
 	return (
 		<div>
-			<h1> Add Topping to Pizza </h1>
+			<h1> Add Topping to Menu </h1>
 			<form>
 				<label htmlFor="topping-name-field"> Topping Name: </label>
 				<input
