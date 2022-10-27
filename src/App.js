@@ -1,16 +1,19 @@
 import './App.css';
 import AddTopping from "./AddTopping";
 import ToppingDisplay from "./ToppingDisplay";
+import ToppingMenu from "./ToppingMenu";
 import AddPizza from "./AddPizza";
 import PizzaDisplay from "./PizzaDisplay";
 
 import { useState, useEffect } from "react";
 
+var selectedTopping = "";
 
 function Home() {
   const [filters, setFilters] = useState({});
   const [toppingData, setToppingData] = useState({ toppings: [] }); // Stores toppings
   const [pizzaData, setPizzaData] = useState({ pizzas: [] }); // Stores pizzas
+  console.log(pizzaData)
 
 
   useEffect(() => {
@@ -121,13 +124,57 @@ function Home() {
     //}
   }
 
-  const deletePizza = (topping) => {
-
+  const deletePizza = (pizza) => {
+    console.log(pizza)
+    const pizzas = pizzaData["pizzas"];
+    const requestOptions = {
+      method: "DELETE"
+    }
+    fetch(`http://localhost:3000/pizzas/${pizza.id}`, requestOptions).then(
+      (response) => {
+        //Checks response code
+        if (response.ok) {
+          const idx = pizzas.indexOf(pizza); // finds index in array
+          pizzas.splice(idx, 1);
+          setPizzaData({pizzas: pizzas})
+        }
+      }
+    );
   };
 
   // Used when we want to update a topping's name. Used in ToppingDisplay.js
-  const updatePizza = (topping) => {
 
+  const getSelectedTopping = (topping) => {
+    selectedTopping = topping.topping;
+    console.log(selectedTopping);
+    
+  };
+
+  // Updates pizza with global selected topping. This topping updates in getSelectedTopping function
+  const updatePizza = (pizza) => {
+    let pizzas = pizzaData["pizzas"];
+
+    pizzas[pizza.id].toppings.push(selectedTopping); // pushes item into this data array
+    setPizzaData({ pizzas: pizzas }); // setData = currentData
+    //console.log(pizzas)
+
+    const requestOptions = {
+      method: "PUT", // posts topping to db
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pizza) // converts topping to string
+    }
+
+    if (false) { // checks if 
+      console.log("In data");
+    }  
+
+    else {
+      fetch(`http://localhost:3000/pizzas/${pizza.id}`, requestOptions)
+      .then((response) => response.json())
+      .then((pizzaData) => {}); // *get[s] data from backend data
+    }
   };
 
 
@@ -172,6 +219,12 @@ function Home() {
           deleteTopping={deleteTopping}
           updateTopping={updateTopping}
           toppings={filterData(toppingData["toppings"])} />
+        </div>
+
+        <div className = "menu-box">
+          <ToppingMenu
+          toppings={filterData(toppingData["toppings"])}
+          getSelectedTopping={getSelectedTopping} />
         </div>
 
         <div className="pizza-box">
