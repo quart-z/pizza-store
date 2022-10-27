@@ -13,7 +13,6 @@ function Home() {
   const [filters, setFilters] = useState({});
   const [toppingData, setToppingData] = useState({ toppings: [] }); // Stores toppings
   const [pizzaData, setPizzaData] = useState({ pizzas: [] }); // Stores pizzas
-  console.log(pizzaData)
 
 
   useEffect(() => {
@@ -27,6 +26,14 @@ function Home() {
     .then((response) => response.json())
     .then((pizzaData) => setPizzaData({ pizzas: pizzaData }));
   }, []);
+
+  // function to return sliced array after slice
+  const hasDuplicate = (arrayObj, colName) => {
+    var hash = Object.create(null);
+    return arrayObj.some((arr) => {
+      return arr[colName] && (hash[arr[colName]] || !(hash[arr[colName]] = true));
+      });
+    };
 
 
 
@@ -78,20 +85,26 @@ function Home() {
   // Used when we want to update a topping's name. Used in ToppingDisplay.js
   const updateTopping = (topping, editElem) => {
     const toppings = toppingData["toppings"];
-    const idx = toppings.indexOf(topping); // finds index in array
-    toppings[idx].topping = editElem;
-    setToppingData({ toppings: toppings });
+    
+    if (JSON.stringify(toppings).includes(JSON.stringify(topping.topping))) { // checks for duplicate topping in data
+      console.log("In data");
+    }  
+    else { // Not a duplicate, insert updated topping into data
+      const idx = toppings.indexOf(topping); // finds index in array
+      toppings[idx].topping = editElem;
+      setToppingData({ toppings: toppings });
 
-    const requestOptions = {
-      method: "PUT",
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(topping)
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(topping)
+      }
+      fetch(`http://localhost:3000/toppings/${topping.id}`, requestOptions)
+      .then((response) => {}
+      );
     }
-    fetch(`http://localhost:3000/toppings/${topping.id}`, requestOptions)
-    .then((response) => {}
-    );
   };
 
 
@@ -100,28 +113,37 @@ function Home() {
 
   const addPizzaToData = (pizza) => {
     let pizzas = pizzaData["pizzas"]; // Stores state in data
-    //topping.id = toppings.length; // sets id for each topping
 
-    const requestOptions = {
-      method: "POST", // posts topping to db
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(pizza) // converts topping to string
+    //  Checks for duplicate pizzas
+
+    if (JSON.stringify(pizzas).includes(JSON.stringify(pizza.toppings))) {
+      console.log("In data, pizza not addded");
     }
 
-    //if (JSON.stringify(pizza.toppings).includes(JSON.stringify(pizza.pizza))) { // checks if 
-    //  console.log("In data");
-    //}  
-    //else {
+    // If no duplicates, add the pizza thru POST request
+
+    else {
+      const requestOptions = {
+        method: "POST", // posts topping to db
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pizza) // converts topping to string
+      }
+
       fetch("http://localhost:3000/pizzas", requestOptions)
       .then((response) => response.json())
       .then((pizzaData) => {
-        pizzas.push(pizzaData); // pushes item into this data array
-        setPizzaData({ pizzas: pizzas }); // setData = currentData
-        console.log(pizzas)
-      }); // *get[s] data from backend data
-    //}
+        console.log(pizzaData)
+        if (JSON.stringify(pizzas).includes(JSON.stringify(pizzaData.toppings))) {
+          console.log("In data, pizza not added");
+        }
+        else {
+          pizzas.push(pizzaData); // pushes item into this data array
+          setPizzaData({ pizzas: pizzas }); // setData = currentData
+        }
+      }); 
+    }
   }
 
   const deletePizza = (pizza) => {
@@ -154,27 +176,51 @@ function Home() {
   const updatePizza = (pizza) => {
     let pizzas = pizzaData["pizzas"];
 
-    pizzas[pizza.id].toppings.push(selectedTopping); // pushes item into this data array
-    setPizzaData({ pizzas: pizzas }); // setData = currentData
-    //console.log(pizzas)
+    // If the selected topping is in the pizza data already, delete it
+    if (JSON.stringify(pizza.toppings).includes(selectedTopping)) { // checks for duplicate topping in data
+      // check if another pizza has the same toppings, after delete. If duplicate pizza, do nothing
+      console.log("In data, delete topping");
+      
+      var idx = pizzas[pizza.id].toppings.indexOf(selectedTopping); // finds index in array
+      pizzas[pizza.id].toppings.splice(idx, 1)
+      setPizzaData({pizzas: pizzas})
 
-    const requestOptions = {
-      method: "PUT", // posts topping to db
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(pizza) // converts topping to string
-    }
-
-    if (false) { // checks if 
-      console.log("In data");
+      var isDuplicate = hasDuplicate(pizzas, "toppings");
+      if (isDuplicate) {
+        console.log("Error: Duplicate Pizza")
+        pizzas[pizza.id].toppings.push(selectedTopping); // pushes item into this data array
+        setPizzaData({ pizzas: pizzas }); // setData = currentData
+      }
+        
     }  
 
+    // Topping not in pizza data, add it
     else {
+      console.log(pizzas[pizza.id])
+      pizzas[pizza.id].toppings.push(selectedTopping); // pushes item into this data array
+      setPizzaData({ pizzas: pizzas }); // setData = currentData
+
+      // Check for duplicate pizza
+      var isDuplicate = hasDuplicate(pizzas, "toppings");
+      if (isDuplicate) {
+        console.log("Error: Duplicate Pizza")
+        var idx = pizzas[pizza.id].toppings.indexOf(selectedTopping); // finds index in array
+        pizzas[pizza.id].toppings.splice(idx, 1)
+        setPizzaData({pizzas: pizzas})
+      }
+    }
+      const requestOptions = {
+        method: "PUT", // posts topping to db
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pizza) // converts topping to string
+      }
+
       fetch(`http://localhost:3000/pizzas/${pizza.id}`, requestOptions)
       .then((response) => response.json())
       .then((pizzaData) => {}); // *get[s] data from backend data
-    }
+    
   };
 
 
