@@ -4,7 +4,7 @@ function PizzaDisplay({ pizzas, deletePizza, updatePizza }) {
 	const showPizza = (pizza) => {
 		return (
 			<tr>
-				<th scope="row">{pizza.id}</th>
+				<th scope="row">Pizza {pizza.id}</th>
 				<td>{pizza.toppings}</td>
 				<td>
 					<button className="delete-button" onClick={() => deletePizza(pizza)}>

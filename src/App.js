@@ -1,6 +1,7 @@
 import './App.css';
 import AddTopping from "./AddTopping";
 import ToppingDisplay from "./ToppingDisplay";
+import AddPizza from "./AddPizza";
 import PizzaDisplay from "./PizzaDisplay";
 
 import { useState, useEffect } from "react";
@@ -94,6 +95,32 @@ function Home() {
 
   // PIZZAS
 
+  const addPizzaToData = (pizza) => {
+    let pizzas = pizzaData["pizzas"]; // Stores state in data
+    //topping.id = toppings.length; // sets id for each topping
+
+    const requestOptions = {
+      method: "POST", // posts topping to db
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(pizza) // converts topping to string
+    }
+
+    //if (JSON.stringify(pizza.toppings).includes(JSON.stringify(pizza.pizza))) { // checks if 
+    //  console.log("In data");
+    //}  
+    //else {
+      fetch("http://localhost:3000/pizzas", requestOptions)
+      .then((response) => response.json())
+      .then((pizzaData) => {
+        pizzas.push(pizzaData); // pushes item into this data array
+        setPizzaData({ pizzas: pizzas }); // setData = currentData
+        console.log(pizzas)
+      }); // *get[s] data from backend data
+    //}
+  }
+
   const deletePizza = (topping) => {
 
   };
@@ -152,6 +179,8 @@ function Home() {
           deletePizza={deletePizza}
           updatePizza={updatePizza}
           pizzas={filterData(pizzaData["pizzas"])} />
+
+          <AddPizza addPizza={addPizzaToData} />
         </div>
 
 
