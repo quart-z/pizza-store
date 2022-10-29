@@ -5,6 +5,9 @@ import ToppingMenu from "./ToppingMenu";
 import AddPizza from "./AddPizza";
 import PizzaDisplay from "./PizzaDisplay";
 
+// Components
+import NavBar from "./components/navbar";
+
 import { useState, useEffect } from "react";
 
 var selectedTopping = "";
@@ -253,7 +256,7 @@ function Home() {
   return (
     <body>
       <header>
-
+        <NavBar />
       </header>
       <div className = "main-content-box">
       
