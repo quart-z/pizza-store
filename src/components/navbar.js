@@ -1,4 +1,5 @@
 import * as React from "react";
+import './navbar.css';
 
 
 const Content: React.FC = () => {
@@ -7,7 +8,7 @@ const Content: React.FC = () => {
       <div className = "container">
           <nav className="">
             {/* Nav section , <NavBar /> */}
-            <img src="/logo512.png" href="index.html" className="logo_box hue-shift">
+            <img src="/pizza-logo.png" href="index.html" className="logo_box hue-shift">
             </img>
             <ul className="nav-list">
               <li className="nav-item">

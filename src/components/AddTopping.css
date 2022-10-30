@@ -1,0 +1,45 @@
+.add-topping-content-box {
+  height: 100px;
+}
+
+
+h1.add-topping-text {
+  font-size: 18px;
+
+}
+
+.add-topping-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+input[type=text] {
+  outline: none;
+  display: flex;
+  align-content: center;
+  width: 50%;
+  padding: 4px 4px;
+  box-sizing: border-box;
+}
+
+
+.add-topping-button {
+  all: unset;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 30px;
+  width: 100px;
+  cursor: pointer;
+}
+
+h2.add-topping-button-text {
+  margin-top: 5%;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+}
+
+input[type=text]:focus {
+  border: 1px solid black;
+}

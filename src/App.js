@@ -1,6 +1,6 @@
 import './App.css';
-import AddTopping from "./AddTopping";
-import ToppingDisplay from "./ToppingDisplay";
+import AddTopping from "./components/AddTopping";
+import ToppingDisplay from "./components/ToppingDisplay";
 import ToppingMenu from "./ToppingMenu";
 import AddPizza from "./AddPizza";
 import PizzaDisplay from "./PizzaDisplay";
@@ -89,7 +89,7 @@ function Home() {
   const updateTopping = (topping, editElem) => {
     const toppings = toppingData["toppings"];
     
-    if (JSON.stringify(toppings).includes(JSON.stringify(topping.topping))) { // checks for duplicate topping in data
+    if (JSON.stringify(toppings).includes(editElem)) { // checks for duplicate topping in data
       console.log("In data");
     }  
     else { // Not a duplicate, insert updated topping into data
@@ -258,10 +258,22 @@ function Home() {
       <header>
         <NavBar />
       </header>
-      <div className = "main-content-box">
-      
-        {/* Section 1 - Topping section , <Content /> */}
-        <div className = "topping-box">
+      <div className="title-content-box"> 
+        <h1 className="title-text"> Welcome to your Pizza Store! </h1>
+        <h2 className="title-text"> Add a topping, update a topping, or delete one from the menu. Afterwards, time to make a pizza! </h2>
+        <a href="/chef" className="manage-pizza-link">
+          Manage Pizzas
+        </a>
+      </div>
+
+      <div className = "menu-content-box">
+        <div className="menu-logo-box">
+          <h1 className="menu-logo-text"> Pizza Toppings Menu </h1>
+          <img src="/menu-logo.png" href="index.html" className="menu-logo-box">
+          </img>
+        </div>
+
+        <div className="menu-topping-box"> 
           <AddTopping addTopping={addToppingToData} />
 
           <ToppingDisplay 
@@ -269,6 +281,18 @@ function Home() {
           updateTopping={updateTopping}
           toppings={filterData(toppingData["toppings"])} />
         </div>
+      </div>
+
+      <div className="test"> </div>
+
+
+
+      <div className = "main-content-box">
+      
+        {/* Test */}
+
+        {/* Section 1 - Topping section , <Content /> */}
+
 
         <div className = "menu-box">
           <ToppingMenu

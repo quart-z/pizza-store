@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./AddTopping.css";
 
 function AddTopping(props) { 
 	const [topping, setTopping] = useState("");
@@ -14,10 +15,9 @@ function AddTopping(props) {
 	}
 
 	return (
-		<div>
-			<h1> Add Topping to Menu </h1>
-			<form>
-				<label htmlFor="topping-name-field"> Topping Name: </label>
+		<div className = "add-topping-content-box">
+			<h1 className ="add-topping-text"> Add Topping </h1>
+			<form className ="add-topping-form">
 				<input
 					id="topping-name-field"
 					type="text"
@@ -25,8 +25,8 @@ function AddTopping(props) {
 					onChange={(e) => setTopping(e.target.value)}
 				/>
 
-				<button type="button" onClick={toppingButtonPressed}>
-					Add Topping
+				<button className="add-topping-button" onClick={toppingButtonPressed}>
+					<h2 className="add-topping-button-text"> Add Topping </h2>
 				</button>
 			</form>
 		</div>
