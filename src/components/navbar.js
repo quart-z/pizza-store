@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from 'react-router-dom';
 import './navbar.css';
 
 
@@ -12,14 +13,12 @@ const Content: React.FC = () => {
             </img>
             <ul className="nav-list">
               <li className="nav-item">
-                <a href="/" className="nav-link">
+                <Link to="/" className="nav-link">
                   Manage Toppings
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a href="/chef" className="nav-link">
-                  Manage Pizzas
-                </a>
+                <Link to="/chef" className="nav-link"> Manage Pizzas </Link>
               </li>           
             </ul>
           </nav>

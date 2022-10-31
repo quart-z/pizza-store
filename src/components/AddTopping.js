@@ -9,7 +9,7 @@ function AddTopping(props) {
 		props.addTopping({
 			topping: topping,
 		});
-		setTopping(" "); // clears topping after add button pressed
+		setTopping(""); // clears topping after add button pressed
 
 			
 	}
@@ -25,7 +25,7 @@ function AddTopping(props) {
 					onChange={(e) => setTopping(e.target.value)}
 				/>
 
-				<button className="add-topping-button" onClick={toppingButtonPressed}>
+				<button type="button" className="add-topping-button" onClick={toppingButtonPressed}>
 					<h2 className="add-topping-button-text"> Add Topping </h2>
 				</button>
 			</form>

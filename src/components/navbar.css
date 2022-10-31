@@ -1,4 +1,6 @@
 nav {
+  position: static;
+  background: transparent;
   padding: 15px 30px 15px 20px;
   align-items: center;
   display: flex;
