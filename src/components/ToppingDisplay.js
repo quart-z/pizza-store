@@ -56,7 +56,7 @@ function ToppingDisplay({ toppings, deleteTopping, updateTopping }) {
 			</div>
 
 			<h3 className="final-note-text"> 
-			Note: There can be no duplicate toppings in this menu!
+			Note: There can be no duplicate toppings in this menu! *Topping Max of 20*
 			</h3>
 		</div>
 	);

@@ -1,0 +1,74 @@
+.body {
+  justify-content: space-evenly;
+}
+
+
+
+/* Menu */
+
+.chef-menu-content-box {
+  position: relative;
+  background: white;
+  border: 1px solid black;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  height: 1000px;
+  margin-top: 40px;
+  margin-bottom: 100px;
+}
+
+.chef-menu-logo-box {
+  border-bottom: 1px solid black;
+  align-content: center;
+  text-align: center;
+  height: 180px;
+  width: 100%;
+}
+
+h1.chef-menu-logo-text {
+  margin-top: 70px;
+  position: absolute;
+  color: indianred;
+  font-family: inter;
+  font-weight: 900;
+  font-size: 20px;
+  align-self: center;
+  text-align: center;
+  width: 100%;
+}
+
+.chef-menu-topping-box {
+  position: relative;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+
+.chef-pizza-box {
+  position: relative;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+
+.chef-menu-items-box {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+h1.note-text {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+h2.note-text {
+  margin-top: 50px;
+  font-size: 16px;
+  text-align: center;
+}

@@ -11,7 +11,7 @@ function ToppingMenu({ toppings, getSelectedTopping }) {
 
 		return (
 			<tr>
-				<th scope="row">{topping.id}</th>
+				<th scope="row">Topping: {topping.id} </th>
 				<td>{topping.topping}</td>
 				<td>
 					<button className="select-button" onClick={() => selectButton(topping)}>

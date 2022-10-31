@@ -1,7 +1,7 @@
-import Home from './Home'
-import ToppingMenu from "./ToppingMenu";
-import AddPizza from "./AddPizza";
-import PizzaDisplay from "./PizzaDisplay";
+import "./Chef.css"
+import ToppingMenu from "./components/ToppingMenu";
+import AddPizza from "./components/AddPizza";
+import PizzaDisplay from "./components/PizzaDisplay";
 
 import { useState, useEffect } from "react";
 
@@ -13,7 +13,6 @@ var selectedTopping = "";
 
 
 function Chef() {
-
   const [toppingData, setToppingData] = useState({ toppings: [] }); // Stores toppings
   const [pizzaData, setPizzaData] = useState({ pizzas: [] }); // Stores pizzas
 
@@ -44,9 +43,13 @@ function Chef() {
   const addPizzaToData = (pizza) => {
     let pizzas = pizzaData["pizzas"]; // Stores state in data
 
+    if (pizzas.length >= 10) {
+      console.log("Pizza length cannot exceed 10.")
+    }
+
     //  Checks for duplicate pizzas
 
-    if (JSON.stringify(pizzas).includes(JSON.stringify(pizza.toppings))) {
+    else if (JSON.stringify(pizzas).includes(JSON.stringify(pizza.toppings))) {
       console.log("In data, pizza not addded");
     }
 
@@ -77,21 +80,26 @@ function Chef() {
   }
 
   const deletePizza = (pizza) => {
-    console.log(pizza)
-    const pizzas = pizzaData["pizzas"];
-    const requestOptions = {
-      method: "DELETE"
+    if (pizza.id == 0) { // Don't delete first pizza,
+      console.log("Cannot delete 1st pizza in data")
     }
-    fetch(`http://localhost:3000/pizzas/${pizza.id}`, requestOptions).then(
-      (response) => {
-        //Checks response code
-        if (response.ok) {
-          const idx = pizzas.indexOf(pizza); // finds index in array
-          pizzas.splice(idx, 1);
-          setPizzaData({pizzas: pizzas})
-        }
+    else {
+      console.log(pizza)
+      const pizzas = pizzaData["pizzas"];
+      const requestOptions = {
+        method: "DELETE"
       }
-    );
+      fetch(`http://localhost:3000/pizzas/${pizza.id}`, requestOptions).then(
+        (response) => {
+          //Checks response code
+          if (response.ok) {
+            const idx = pizzas.indexOf(pizza); // finds index in array
+            pizzas.splice(idx, 1);
+            setPizzaData({pizzas: pizzas})
+          }
+        }
+      );
+    }
   };
 
   // Used when we want to update a topping's name. Used in ToppingDisplay.js
@@ -105,6 +113,8 @@ function Chef() {
   // Updates pizza with global selected topping. This topping updates in getSelectedTopping function
   const updatePizza = (pizza) => {
     let pizzas = pizzaData["pizzas"];
+    console.log(pizzas)
+    console.log(pizza.id)
 
     // If the selected topping is in the pizza data already, delete it
     if (JSON.stringify(pizza.toppings).includes(selectedTopping)) { // checks for duplicate topping in data
@@ -156,24 +166,46 @@ function Chef() {
 
 
 
-
   return (
-    <div>
-      
-      <div className = "menu-box">
-          <ToppingMenu
-          toppings={toppingData["toppings"]}
-          getSelectedTopping={getSelectedTopping} />
+    <div className="body">
+
+      <div className = "chef-menu-content-box">
+        <div className="chef-menu-logo-box">
+          <h1 className="chef-menu-logo-text"> Create a Pizza </h1>
+          <img src="/menu-logo.png" href="index.html" className="chef-menu-logo-box">
+          </img>
         </div>
 
-        <div className="pizza-box">
+        <h1 className="note-text"> 
+        Note: Add a pizza to begin creating a fresh cheese pizza. Select a topping, then select 'update' to either add or delete a topping on a pizza.
+        </h1>
+
+        <div className="chef-menu-items-box">
+          <div className="chef-menu-topping-box"> 
+            <ToppingMenu
+            toppings={toppingData["toppings"]}
+            getSelectedTopping={getSelectedTopping} />
+          </div>
+
+          <div className="chef-pizza-box">
           <PizzaDisplay 
           deletePizza={deletePizza}
           updatePizza={updatePizza}
           pizzas={pizzaData["pizzas"]} />
 
           <AddPizza addPizza={addPizzaToData} />
+          </div>
         </div>
+
+        <h2 className="note-text"> 
+        Note: There can be no duplicate pizzas, and you cannot delete all pizzas. *Pizza Max of 10*
+        </h2>
+
+      </div>
+
+
+
+
 
     </div>
   );

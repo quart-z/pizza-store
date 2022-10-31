@@ -16,5 +16,21 @@
       "topping": "Pineapple",
       "id": 3
     }
+  ],
+  "pizzas": [
+    {
+      "toppings": [
+        "Pepperoni",
+        "Sausage",
+        "Pineapple"
+      ],
+      "id": 0
+    },
+    {
+      "toppings": [
+        "Sausage"
+      ],
+      "id": 1
+    }
   ]
 }

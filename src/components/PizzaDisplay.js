@@ -1,3 +1,5 @@
+import "./PizzaDisplay.css"
+
 function PizzaDisplay({ pizzas, deletePizza, updatePizza }) {
 
 	
@@ -32,3 +34,7 @@ function PizzaDisplay({ pizzas, deletePizza, updatePizza }) {
 }
 
 export default PizzaDisplay;
+
+
+
+

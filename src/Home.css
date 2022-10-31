@@ -112,19 +112,3 @@ h1.menu-logo-text {
 
 /* Main content */
 
-.main-content-box {
-  display: flex;
-  justify-content: space-between;
-}
-
-.topping-box {
-  border: 1px solid blue;
-}
-
-.pizza-box {
-  border: 1px solid blue;
-}
-
-.testBox {
-  border: 1px solid blue;
-}
